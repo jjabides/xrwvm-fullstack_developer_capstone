@@ -38,12 +38,15 @@ def get_cars(request):
     car_models = CarModel.objects.select_related('car_make')
     cars = []
     for car_model in car_models:
-        cars.append({"CarModel": car_model.name, "CarMake": car_model.car_make.name})
+        cars.append({
+            "CarModel": car_model.name,
+            "CarMake": car_model.car_make.name
+        })
     return JsonResponse({"CarModels": cars})
 
 
 def get_dealerships(request, state="All"):
-    if(state == "All"):
+    if (state == "All"):
         endpoint = "/fetchDealers"
     else:
         endpoint = "/fetchDealers/"+state
@@ -59,7 +62,7 @@ def get_dealer_reviews(request, dealer_id):
             response = analyze_review_sentiments(review_detail['review'])
             print(response)
             review_detail['sentiment'] = response['sentiment']
-        return JsonResponse({"status": 200,"reviews": reviews})
+        return JsonResponse({"status": 200, "reviews": reviews})
     else:
         return JsonResponse({"status": 400, "message": "Bad Request"})
 
@@ -68,9 +71,9 @@ def get_dealer_details(request, dealer_id):
     if (dealer_id):
         endpoint = f"/fetchDealer/{dealer_id}"
         dealership = get_request(endpoint)
-        return JsonResponse({ "status": 200, "dealer": dealership })
+        return JsonResponse({"status": 200, "dealer": dealership})
     else:
-        return JsonResponse({"status":400, "message": "Bad Request"})
+        return JsonResponse({"status": 400, "message": "Bad Request"})
 
 
 def add_review(request):
