@@ -30,6 +30,13 @@ def login_user(request):
     return JsonResponse(data)
 
 
+def logout_request(request):
+    logout(request) # Terminate user session
+    data = {"userName" : ""} # Return empty username
+    return JsonResponse(data)
+
+
+
 def get_cars(request):
     count = CarMake.objects.filter().count()
     print(count)
